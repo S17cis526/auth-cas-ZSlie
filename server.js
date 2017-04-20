@@ -3,7 +3,7 @@
  */
 
 // Constants
-const PORT = 3000;
+const PORT = 3070;
 
 // Requires
 var fs = require('fs');
@@ -13,10 +13,18 @@ var express = require('express');
 // The Express app
 var app = express();
 
+var option = { 
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+}
+
+var server = https.createServer(option, app);
+
 // Serve files from public folder
 app.use(express.static('public'));
+// or app.use('public/', express.use('public')); // if the user wants to request /public/index.html
 
 // Start the server
-app.listen(PORT, function(){
+server.listen(PORT, function(){
   console.log(PORT);
 });
